@@ -1,0 +1,9 @@
+server {
+    listen 80 default_server;
+    server_name _;
+
+    location / {
+        root {{ nginx_www_dir }}/default;
+        index index.html index.htm;
+    }
+}

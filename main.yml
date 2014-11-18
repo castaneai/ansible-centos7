@@ -5,3 +5,6 @@
   sudo: yes
   roles:
     - role: yum
+    - role: nginx
+  vars:
+    nginx_www_dir: "/var/www"

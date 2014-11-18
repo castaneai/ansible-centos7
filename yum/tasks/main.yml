@@ -9,4 +9,15 @@
   yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm state=present
 
 - name: install epel-repo
-  yum: name=epel-release state=latest
+  yum: name=epel-release state=present
+
+- name: install utils
+  yum: name={{ item }} state=present
+  with_items:
+    - sudo
+    - wget
+    - curl
+    - gcc
+    - vim
+    - openssl-devel # ruby build
+    - sqlite-devel # ruby on rails build

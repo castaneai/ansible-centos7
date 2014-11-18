@@ -1,0 +1,59 @@
+---
+- name: install nginx
+  yum:
+    name: nginx
+    state: present 
+
+- name: create nginx group 
+  group:
+    name: nginx
+    state: present
+
+- name: create nginx user
+  user:
+    name: nginx
+    group: nginx
+    home: "{{ nginx_www_dir }}"
+    system: yes
+    state: present
+
+- name: create document root directory 
+  file:
+    path: "{{ nginx_www_dir }}"
+    owner: nginx
+    group: nginx
+    mode: 0775
+    state: directory
+
+- name: create nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart nginx
+
+- name: create default server directory
+  file:
+    path: "{{ nginx_www_dir }}/default"
+    owner: nginx
+    group: nginx
+    mode: 0775
+    state: directory
+
+- name: create default server config
+  template:
+    src: default.conf.j2
+    dest: /etc/nginx/conf.d/default.conf
+    owner: nginx
+    group: nginx
+    mode: 0644
+  notify:
+    - restart nginx
+
+- name: enable nginx service
+  service:
+    name: nginx
+    enabled: yes
