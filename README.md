@@ -11,5 +11,5 @@ Usage
 --------
 Just ONE command. Enjoy!
 ```sh
-$ ansible-playbook playbook.yml
+$ sudo ./run.sh
 ```

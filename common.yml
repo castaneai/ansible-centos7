@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  gather_facts: no
+  remote_user: "{{ user }}"
+  roles:
+    - common
+  vars:
+    - user: vagrant
+    - home: "{{ lookup('env', 'HOME') }}"
