@@ -58,6 +58,9 @@
   with_fileglob:
     - "{{ home }}/.zprezto/runcoms/z*"
 
+- name: install anyenv
+  git: repo=https://github.com/riywo/anyenv dest={{ home }}/.anyenv
+
 - name: install dotfiles (1)
   git: repo=https://github.com/castaneai/dotfiles dest={{ home }}/.dotfiles
 
