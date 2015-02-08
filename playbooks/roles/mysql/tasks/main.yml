@@ -1,0 +1,30 @@
+---
+- name: Install mysql client & server
+  yum:
+    name: "{{ item }}"
+    state: present
+    enablerepo: remi
+    with_items:
+      - mysql
+      - mysql-server
+      - mysql-devel
+      - MySQL-python
+
+- name: Create database
+  mysql_db:
+    name: "{{ mysql_db_name }}"
+    state: present
+  when: mysql_db_name is defined
+
+- name: Create mysql user
+  mysql_user:
+    name: "{{ mysql_db_user }}"
+    password: "{{ mysql_db_password }}"
+    priv: "{{ mysql_db_name }}.*:ALL"
+    host: "localhost"
+    state: present
+  when:
+    - mysql_db_name is defined
+    - mysql_db_user is defined
+    - mysql_db_password is defined
+
