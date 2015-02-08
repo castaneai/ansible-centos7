@@ -1,0 +1,22 @@
+---
+- name: Install PHP
+  yum:
+    name: "{{ item }}"
+    state: present
+    enablerepo: remi
+  with_items:
+    - php
+    - php-fpm
+    - php-gd
+    - php-mysql
+
+- name: Configure php-fpm
+  template:
+    src: php-fpm-www.conf.j2
+    dest: /etc/php-fpm.d/www.conf
+  notify: restart php-fpm
+
+- name: Enable php-fpm service
+  service:
+    name: php-fpm
+    enabled: yes
