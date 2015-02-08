@@ -1,0 +1,11 @@
+Port {{ sshd_port }}
+Protocol 2
+
+PermitRootLogin no
+PermitEmptyPasswords no
+
+SyslogFacility AUTHPRIV
+
+AcceptEnv LANG LC_*
+
+Subsystem sftp /usr/libexec/openssh/sftp-server

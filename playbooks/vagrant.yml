@@ -1,7 +1,6 @@
 ---
 - hosts: localhost
   gather_facts: no
-  remote_user: "{{ user }}"
   roles:
     - common
   vars:

@@ -1,0 +1,27 @@
+---
+- name: Create user
+  user:
+    name: "{{ user }}"
+    groups: wheel
+    password: "{{ user_password }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+      
+- name: Allow wheel group to use sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    insertafter: "^# %wheel\\s+ALL=\\(ALL\\)\\s+NOPASSWD:\\s+ALL"
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
+    backup: yes
+
+- name: Configure sshd
+  tempalte:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    validate: "sshd -T -f %s"
+    notify: restart sshd
+
+- name: Enable sshd
+  service: name=sshd state=running enabled=yes

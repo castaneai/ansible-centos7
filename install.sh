@@ -1,5 +1,4 @@
 #!/bin/sh
-sudo yum install -y git
-git clone https://github.com/castaneai/ansible-centos7 ~/.ansible-centos7
-cd ~/.ansible-centos7/
-./run.sh && rm -rf ~/.ansible-centos7
+test -e /usr/bin/which || yum install -y which
+test -z $(which ansible-playbook) && yum install -y epel-release && yum install -y ansible
+test -z $(which git) && yum install -y git
