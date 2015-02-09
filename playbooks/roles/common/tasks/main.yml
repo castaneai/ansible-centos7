@@ -29,12 +29,6 @@
     - sqlite-devel # ruby on rails build
   sudo: yes
 
-- name: configure git
-  command: git config --global {{ item }}
-  with_items:
-    - color.ui auto
-    - core.editor "vim"
-
 - name: install vim
   yum: name=vim state=present
   sudo: yes

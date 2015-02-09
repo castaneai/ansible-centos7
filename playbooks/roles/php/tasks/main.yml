@@ -1,4 +1,10 @@
 ---
+- name: Install remi-repo
+  yum:
+    name: http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+    state: present
+  sudo: yes
+
 - name: Install PHP
   yum:
     name: "{{ item }}"
@@ -9,14 +15,18 @@
     - php-fpm
     - php-gd
     - php-mysql
+  sudo: yes
 
 - name: Configure php-fpm
   template:
     src: php-fpm-www.conf.j2
     dest: /etc/php-fpm.d/www.conf
   notify: restart php-fpm
+  sudo: yes
 
 - name: Enable php-fpm service
   service:
     name: php-fpm
+    state: started
     enabled: yes
+  sudo: yes

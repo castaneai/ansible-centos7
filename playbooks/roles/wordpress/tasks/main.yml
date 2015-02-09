@@ -3,9 +3,11 @@
   get_url:
     url: "{{ wp_download_url }}"
     dest: "/tmp/wordpress.tar.gz"
+  sudo: yes
 
 - name: Extract wordpress archive
   command: chdir=/tmp /bin/tar xvf wordpress.tar.gz -C /var/www
+  sudo: yes
 
 - name: Fetch random salt
   local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
@@ -13,8 +15,9 @@
 
 - name: Configure wordpress
   template:
-    src: "wp-config.php.j2"
-    dest: "/var/www/wordpress"
+    src: wp-config.php.j2
+    dest: /var/www/wordpress/wp-config.php
+  sudo: yes
 
 - name: Change ownership
   file:
@@ -23,3 +26,12 @@
     group: web
     state: directory
     recurse: yes
+  sudo: yes
+
+- name: Configure nginx
+  template:
+    src: nginx-wordpress.conf.j2
+    dest: /etc/nginx/conf.d/wordpress.conf
+  notify: reload nginx
+  sudo: yes
+

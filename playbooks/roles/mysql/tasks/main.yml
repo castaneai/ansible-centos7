@@ -1,4 +1,10 @@
 ---
+- name: Install epel repo
+  yum:
+    name: epel-release
+    state: present
+  sudo: yes
+
 - name: Install mysql client & server
   yum:
     name: "{{ item }}"
@@ -8,16 +14,18 @@
     - mariadb
     - mariadb-server
     - MySQL-python
+  sudo: yes
 
 - name: Enable mysql service
   service:
     name: mariadb
     state: started
     enabled: yes
+  sudo: yes
 
 - name: Check .my.cnf file already exists
   stat:
-    path: "/root/.my.cnf"
+    path: "{{ lookup('env', 'HOME') }}/.my.cnf"
   register: mycnf_file
 
 - name: Configure mysql root account
@@ -34,8 +42,7 @@
 - name: Copy .my.cnf file
   template:
     src: my.cnf.j2
-    dest: "/root/.my.cnf"
-    owner: root
+    dest: "{{ lookup('env', 'HOME') }}/.my.cnf"
     mode: 0600
 
 - name: Remove anonymous mysql user
@@ -60,5 +67,3 @@
     - mysql_db_name is defined
     - mysql_db_user is defined
     - mysql_db_password is defined
-
-
