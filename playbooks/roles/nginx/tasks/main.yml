@@ -4,15 +4,15 @@
     name: nginx
     state: present 
 
-- name: create nginx group 
+- name: create nginx group
   group:
-    name: nginx
+    name: "{{ nginx_group }}"
     state: present
 
 - name: create nginx user
   user:
-    name: nginx
-    group: nginx
+    name: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
     home: "{{ nginx_www_dir }}"
     system: yes
     state: present
@@ -20,8 +20,8 @@
 - name: create document root directory 
   file:
     path: "{{ nginx_www_dir }}"
-    owner: nginx
-    group: nginx
+    owner: web 
+    group: web  
     mode: 0775
     state: directory
 
@@ -29,17 +29,14 @@
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
-    owner: root
-    group: root
-    mode: 0644
   notify:
     - restart nginx
 
 - name: create default server directory
   file:
     path: "{{ nginx_www_dir }}/default"
-    owner: nginx
-    group: nginx
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_group }}"
     mode: 0775
     state: directory
 
@@ -47,13 +44,11 @@
   template:
     src: default.conf.j2
     dest: /etc/nginx/conf.d/default.conf
-    owner: nginx
-    group: nginx
-    mode: 0644
   notify:
     - restart nginx
 
 - name: enable nginx service
   service:
     name: nginx
+    state: started
     enabled: yes

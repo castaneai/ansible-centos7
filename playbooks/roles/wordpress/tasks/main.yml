@@ -1,0 +1,25 @@
+---
+- name: Download wordpress
+  get_url:
+    url: "{{ wp_download_url }}"
+    dest: "/tmp/wordpress.tar.gz"
+
+- name: Extract wordpress archive
+  command: chdir=/tmp /bin/tar xvf wordpress.tar.gz -C /var/www
+
+- name: Fetch random salt
+  local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
+  register: "wp_salt"
+
+- name: Configure wordpress
+  template:
+    src: "wp-config.php.j2"
+    dest: "/var/www/wordpress"
+
+- name: Change ownership
+  file:
+    path: /var/www/wordpress
+    owner: web
+    group: web
+    state: directory
+    recurse: yes

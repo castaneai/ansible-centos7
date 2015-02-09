@@ -4,11 +4,44 @@
     name: "{{ item }}"
     state: present
     enablerepo: remi
-    with_items:
-      - mysql
-      - mysql-server
-      - mysql-devel
-      - MySQL-python
+  with_items:
+    - mariadb
+    - mariadb-server
+    - MySQL-python
+
+- name: Enable mysql service
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Check .my.cnf file already exists
+  stat:
+    path: "/root/.my.cnf"
+  register: mycnf_file
+
+- name: Configure mysql root account
+  mysql_user:
+    name: "root"
+    host: "{{ item }}"
+    password: "{{ mysql_root_password }}"
+  with_items:
+    - 127.0.0.1
+    - ::1    
+    - localhost
+  when: mycnf_file.stat.exists == false
+
+- name: Copy .my.cnf file
+  template:
+    src: my.cnf.j2
+    dest: "/root/.my.cnf"
+    owner: root
+    mode: 0600
+
+- name: Remove anonymous mysql user
+  mysql_user:
+    name: ""
+    state: absent
 
 - name: Create database
   mysql_db:
@@ -27,4 +60,5 @@
     - mysql_db_name is defined
     - mysql_db_user is defined
     - mysql_db_password is defined
+
 

@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  gather_facts: no
+  roles:
+    - wordpress
+  vars:
+    mysql_root_password: "do_not_use_weak_mysql_password"

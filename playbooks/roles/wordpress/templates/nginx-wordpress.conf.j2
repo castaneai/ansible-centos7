@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name {{ wp_hostname }}
+    root /var/www/wordpress;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        include fastcgi.conf;
+        fastcgi_pass /var/run/php-fpm/php-fpm.sock;
+    }
+}
