@@ -1,0 +1,19 @@
+---
+- name: Enable firewalld
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+  sudo: yes
+
+- name: Allow http in firewall
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: yes 
+    zone: public
+  with_items:
+    - http
+    - https
+  sudo: yes
+  notify: restart firewalld

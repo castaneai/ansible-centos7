@@ -3,6 +3,7 @@
   gather_facts: no
   roles:
     - common
+    - firewall
   vars:
     - user: vagrant
     - home: "{{ lookup('env', 'HOME') }}"
