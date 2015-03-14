@@ -1,11 +1,11 @@
 [www]
 listen = /var/run/php-fpm/php-fpm.sock;
-listen.owner = web
-listen.group = web
+listen.owner = nginx
+listen.group = nginx 
 listen.allowed_clients = 127.0.0.1
 
-user = web
-group = web
+user = nginx 
+group = nginx 
 
 pm = dynamic
 pm.max_children = 50

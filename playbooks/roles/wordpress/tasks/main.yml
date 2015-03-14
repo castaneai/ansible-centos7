@@ -3,9 +3,8 @@
   get_url:
     url: "{{ wp_download_url }}"
     dest: "/tmp/wordpress.tar.gz"
-  sudo: yes
 
-- name: Extract wordpress archive
+- name: Extract wordpress archive & Create wordpress directory
   command: chdir=/tmp /bin/tar xvf wordpress.tar.gz -C /var/www
   sudo: yes
 
@@ -19,12 +18,11 @@
     dest: /var/www/wordpress/wp-config.php
   sudo: yes
 
-- name: Change ownership
+- name: Change ownership wordpress directory
   file:
     path: /var/www/wordpress
-    owner: web
-    group: web
-    state: directory
+    owner: nginx
+    group: nginx
     recurse: yes
   sudo: yes
 

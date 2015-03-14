@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  gather_facts: no
+  roles:
+    - wordpress
+  vars_prompt:
+    - name: mysql_root_password
+      prompt: "what is mysql root password?"
+      private: yes
+    - name: wp_db_name
+      prompt: "what is wordpress db name?"
+      default: wordpress
+      private: no
+    - name: wp_db_user
+      prompt: "what is wordpress db username?"
+      default: wordpress
+      private: no
+    - name: wp_db_password
+      prompt: "what is wordpress db password?"
+      private: yes
+    - name: wp_hostname
+      prompt: "what is wordpress hostname?"
+      private: no

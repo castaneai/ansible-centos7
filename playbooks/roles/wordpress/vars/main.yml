@@ -1,6 +1,2 @@
 ---
 wp_download_url: "http://ja.wordpress.org/latest-ja.tar.gz"
-wp_db_name: "wordpress"
-wp_db_user: "admin"
-wp_db_password: "please_change_this_password"
-wp_hostname: "wp.local"
