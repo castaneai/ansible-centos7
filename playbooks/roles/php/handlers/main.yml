@@ -3,3 +3,4 @@
   service:
     name: php-fpm
     state: restarted
+  sudo: yes
