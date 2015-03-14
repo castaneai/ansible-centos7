@@ -1,0 +1,53 @@
+---
+- name: install git (yum)
+  yum: name=git state=present
+  when: ansible_os_family == 'RedHat'
+  sudo: yes
+
+- name: install git (brew)
+  homebrew: name=git state=present
+  when: ansible_os_family == 'Darwin'
+
+- name: install zsh (yum)
+  yum: name=zsh state=present
+  when: ansible_os_family == 'RedHat'
+  sudo: yes
+
+- name: install zsh (brew)
+  homebrew: name=zsh state=present
+  when: ansible_os_family == 'Darwin'
+
+- name: change default shell to zsh
+  user: name={{ ansible_ssh_user }} shell=/bin/zsh
+  sudo: yes
+
+- name: install prezto (1)
+  git: repo=https://github.com/sorin-ionescu/prezto.git dest={{ ansible_env.HOME }}/.zprezto recursive=yes
+
+- name: install prezto (2)
+  file: src={{ item }} dest={{ ansible_env.HOME }}/.{{ item | basename }} state=link
+  with_fileglob:
+    - "{{ ansible_env.HOME }}/.zprezto/runcoms/z*"
+
+- name: install anyenv
+  git: repo=https://github.com/riywo/anyenv dest={{ ansible_env.HOME }}/.anyenv
+
+- name: install dotfiles (1)
+  git: repo=https://github.com/castaneai/dotfiles dest={{ ansible_env.HOME }}/.dotfiles
+
+- name: install dotfiles (2)
+  file: src={{ item }} dest={{ ansible_env.HOME }}/{{ item | basename }} state=link
+  with_fileglob:
+    - "{{ ansible_env.HOME }}/.dotfiles/.*"
+
+- name: install vim (yum)
+  yum: name=vim state=present
+  when: ansible_os_family == 'RedHat'
+  sudo: yes
+
+- name: install vim (brew)
+  homebrew: name=vim state=present install_options=with-lua
+  when: ansible_os_family == 'Darwin'
+
+- name: install neobundle 
+  git: repo=https://github.com/Shougo/neobundle.vim dest={{ ansible_env.HOME }}/.vim/bundle/neobundle.vim
