@@ -1,4 +1,2 @@
 ---
-nginx_user: "web"
-nginx_group: "web"
 nginx_www_dir: "/var/www"

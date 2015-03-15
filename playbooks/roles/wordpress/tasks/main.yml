@@ -25,6 +25,7 @@
     path: "{{ wp_dir }}"
     owner: nginx
     group: nginx
+    state: directory
     recurse: yes
   sudo: yes
 
