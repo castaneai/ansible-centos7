@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  gather_facts: no
+  roles:
+    - monit
+  vars_prompt:
+    - name: monit_hostname
+      prompt: "what is monit hostname?"
+      private: no 
+    - name: monit_auth_username
+      prompt: "what is monit auth username?"
+      private: no
+    - name: monit_auth_password
+      prompt: "what is monit auth password?"
+      private: yes

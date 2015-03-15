@@ -1,0 +1,9 @@
+set daemon 60
+set logfile /var/log/monit.log
+set statefile /var/lib/monit/statefile
+set idfile /var/lib/monit/idfile
+
+set httpd unixsocket /var/run/monit.sock
+    allow {{ monit_auth_username }}:{{ monit_auth_password }}
+
+include /etc/monit/conf.d/*

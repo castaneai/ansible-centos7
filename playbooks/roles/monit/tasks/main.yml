@@ -1,0 +1,22 @@
+---
+- name: Install monit
+  yum:
+    name: monit
+    state: present
+  sudo: yes
+
+- name: Configure monit core
+  template:
+    src: monitrc.j2
+    dest: /etc/monit/monitrc
+    mode: 0700
+  notify: restart monit
+  sudo: yes
+
+- name: Configure monit web-interface
+  template:
+    src: webinterface.j2
+    dest: /etc/monit/conf.d/webinterface
+    mode: 0644
+  notify: restart monit
+  sudo: yes
