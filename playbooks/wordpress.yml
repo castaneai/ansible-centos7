@@ -7,6 +7,9 @@
     - name: mysql_root_password
       prompt: "what is mysql root password?"
       private: yes
+    - name: wp_dir
+      prompt: "where is wordpress directory?"
+      default: /var/www/vhosts/wordpress
     - name: wp_db_name
       prompt: "what is wordpress db name?"
       default: wordpress

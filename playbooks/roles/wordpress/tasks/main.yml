@@ -4,8 +4,10 @@
     url: "{{ wp_download_url }}"
     dest: "/tmp/wordpress.tar.gz"
 
-- name: Extract wordpress archive & Create wordpress directory
-  command: chdir=/tmp /bin/tar xvf wordpress.tar.gz -C /var/www
+- name: Extract wordpress archive
+  unarchive:
+    src: "/tmp/wordpress.tar.gz"
+    dest: "{{ wp_dir }}"
   sudo: yes
 
 - name: Fetch random salt
@@ -15,12 +17,12 @@
 - name: Configure wordpress
   template:
     src: wp-config.php.j2
-    dest: /var/www/wordpress/wp-config.php
+    dest: "{{ wp_dir }}/wp-config.php"
   sudo: yes
 
 - name: Change ownership wordpress directory
   file:
-    path: /var/www/wordpress
+    path: "{{ wp_dir }}"
     owner: nginx
     group: nginx
     recurse: yes

@@ -1,7 +1,7 @@
 server {
     listen 80;
     server_name {{ wp_hostname }};
-    root /var/www/wordpress;
+    root {{ wp_dir }};
     index index.html index.htm index.php;
 
     location / {
