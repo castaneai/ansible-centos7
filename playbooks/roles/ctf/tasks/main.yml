@@ -1,0 +1,20 @@
+---
+# ld-linux.so.2 は, 64bit上でで32bitのELFを実行するために必要
+- name: Install nmap, nc, ld-linux.so.2 (yum)
+  yum: name={{ item }} state=present
+  with_items:
+    - "nmap"
+    - "nc"
+    - "ld-linux.so.2"
+  when: ansible_os_family == 'RedHat'
+  sudo: yes
+
+- name: Install radare2 (1)
+  git: repo=https://github.com/radare/radare2 dest=/tmp/radare2
+
+- name: Install radare2 (2)
+  shell: /tmp/radare2/sys/install.sh
+  sudo: yes
+
+- name: Install pwntools
+  pip: name=pwntools state=present
